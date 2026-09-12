@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <!-- saved from url=(0063)file:///C:/Users/LOQ/tokyo-drifter/desktop/src/saranya%20s.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Tokyo Drifter 🐌</title>
-
-
-
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Tokyo Drifter 🐌</title>
-    <style>
 
     <style>
         * {
@@ -103,8 +95,8 @@
 
     <div class="info">
         <p>🐌 Snail speed: <span id="speed">0</span></p>
-        <p>🏃 Distance travelled: <span id="distance">27588</span></p>
-        <p>😈 Escape attempts: <span id="escapes">51</span></p>
+        <p>🏃 Distance travelled: <span id="distance">0</span></p>
+        <p>😈 Escape attempts: <span id="escapes">0</span></p>
     </div>
 
     <script>
@@ -155,14 +147,6 @@
             // Normal movement
             let followSpeed = 0.15;
 
-            // Make snail follow mouse
-            if (distance > 10) {
-
-                snailX += dx * followSpeed;
-                snailY += dy * followSpeed;
-
-            }
-
             // Calculate how fast mouse is moving
             let mouseDX = mouseX - oldMouseX;
             let mouseDY = mouseY - oldMouseY;
@@ -176,25 +160,25 @@
             speedText.textContent = Math.round(mouseSpeed);
 
             // Save the snail's previous position
-let oldSnailX = snailX;
-let oldSnailY = snailY;
+            let oldSnailX = snailX;
+            let oldSnailY = snailY;
 
-// Move the snail
-if (distance > 10) {
-    snailX += dx * followSpeed;
-    snailY += dy * followSpeed;
-}
+            // Move the snail
+            if (distance > 10) {
+                snailX += dx * followSpeed;
+                snailY += dy * followSpeed;
+            }
 
-// Calculate how far the snail ACTUALLY moved
-let snailMovement = Math.sqrt(
-    (snailX - oldSnailX) ** 2 +
-    (snailY - oldSnailY) ** 2
-);
+            // Calculate how far the snail ACTUALLY moved
+            let snailMovement = Math.sqrt(
+                (snailX - oldSnailX) ** 2 +
+                (snailY - oldSnailY) ** 2
+            );
 
-// Only add distance if the snail actually moved
-if (snailMovement > 0) {
-    totalDistance += snailMovement;
-}
+            // Only add distance if the snail actually moved
+            if (snailMovement > 0) {
+                totalDistance += snailMovement;
+            }
 
             distanceText.textContent = Math.round(totalDistance);
 
