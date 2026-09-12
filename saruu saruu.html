@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///C:/Users/LOQ/tokyo-drifter/desktop/src/saranya%20s.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tokyo Drifter 🐌</title>
+
+
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tokyo Drifter 🐌</title>
+    <style>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #f5f1e8;
+            font-family: Arial, sans-serif;
+            cursor: crosshair;
+        }
+
+        /* Title */
+        .title {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: 42px;
+        }
+
+        .title p {
+            margin-top: 5px;
+            color: #666;
+        }
+
+        /* Snail */
+        #snail {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            font-size: 55px;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        /* Information box */
+        .info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 15px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .info p {
+            margin: 5px 0;
+        }
+
+        /* Snail speech */
+        #message {
+            position: fixed;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 20;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="title">
+        <h1>🐌 TOKYO DRIFTER</h1>
+        <p>A completely unnecessary snail.</p>
+    </div>
+
+    <div id="snail" style="font-size: 55px; left: 628.919px; top: 302.432px;">🐌</div>
+
+    <div id="message" style="left: 663.919px; top: 252.432px; display: none;">Please slow down.</div>
+
+    <div class="info">
+        <p>🐌 Snail speed: <span id="speed">0</span></p>
+        <p>🏃 Distance travelled: <span id="distance">27588</span></p>
+        <p>😈 Escape attempts: <span id="escapes">51</span></p>
+    </div>
+
+    <script>
+
+        // Get the snail from the HTML
+        const snail = document.getElementById("snail");
+
+        // Get information elements
+        const speedText = document.getElementById("speed");
+        const distanceText = document.getElementById("distance");
+        const escapeText = document.getElementById("escapes");
+        const message = document.getElementById("message");
+
+        // Mouse position
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        // Snail position
+        let snailX = window.innerWidth / 2;
+        let snailY = window.innerHeight / 2;
+
+        // Previous mouse position
+        let oldMouseX = mouseX;
+        let oldMouseY = mouseY;
+
+        // Statistics
+        let totalDistance = 0;
+        let escapes = 0;
+
+        // When mouse moves
+        document.addEventListener("mousemove", function(event) {
+
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+
+        });
+
+        // Move the snail continuously
+        function moveSnail() {
+
+            // Difference between mouse and snail
+            let dx = mouseX - snailX;
+            let dy = mouseY - snailY;
+
+            // Distance between snail and mouse
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Normal movement
+            let followSpeed = 0.15;
+
+            // Make snail follow mouse
+            if (distance > 10) {
+
+                snailX += dx * followSpeed;
+                snailY += dy * followSpeed;
+
+            }
+
+            // Calculate how fast mouse is moving
+            let mouseDX = mouseX - oldMouseX;
+            let mouseDY = mouseY - oldMouseY;
+
+            let mouseSpeed = Math.sqrt(
+                mouseDX * mouseDX +
+                mouseDY * mouseDY
+            );
+
+            // Display speed
+            speedText.textContent = Math.round(mouseSpeed);
+
+            // Save the snail's previous position
+let oldSnailX = snailX;
+let oldSnailY = snailY;
+
+// Move the snail
+if (distance > 10) {
+    snailX += dx * followSpeed;
+    snailY += dy * followSpeed;
+}
+
+// Calculate how far the snail ACTUALLY moved
+let snailMovement = Math.sqrt(
+    (snailX - oldSnailX) ** 2 +
+    (snailY - oldSnailY) ** 2
+);
+
+// Only add distance if the snail actually moved
+if (snailMovement > 0) {
+    totalDistance += snailMovement;
+}
+
+            distanceText.textContent = Math.round(totalDistance);
+
+            // Change snail size when moving fast
+            if (mouseSpeed > 15) {
+                snail.style.fontSize = "65px";
+            } else {
+                snail.style.fontSize = "55px";
+            }
+
+            // Remember mouse position
+            oldMouseX = mouseX;
+            oldMouseY = mouseY;
+
+            // Put snail on screen
+            snail.style.left = snailX + "px";
+            snail.style.top = snailY + "px";
+
+            // Continue animation
+            requestAnimationFrame(moveSnail);
+        }
+
+        // Random snail messages
+        const messages = [
+            "Where are we going?",
+            "Why are you running?",
+            "I have no idea what I'm doing.",
+            "Please slow down.",
+            "This is my cardio.",
+            "Why am I following you?",
+            "I need a break.",
+            "🐌 ...",
+            "This website is completely useless."
+        ];
+
+        // Show random message
+        function showMessage(text) {
+
+            message.textContent = text;
+
+            message.style.left = (snailX + 35) + "px";
+            message.style.top = (snailY - 50) + "px";
+
+            message.style.display = "block";
+
+            setTimeout(function() {
+                message.style.display = "none";
+            }, 2000);
+        }
+
+        // Random message every few seconds
+        setInterval(function() {
+
+            let randomIndex = Math.floor(
+                Math.random() * messages.length
+            );
+
+            showMessage(messages[randomIndex]);
+
+        }, 5000);
+
+        // If user clicks the snail
+        snail.addEventListener("click", function(event) {
+
+            escapes++;
+
+            escapeText.textContent = escapes;
+
+            showMessage("HEY! DON'T CATCH ME! 😭");
+
+            // Make snail jump away
+            let dx = snailX - mouseX;
+            let dy = snailY - mouseY;
+
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance > 0) {
+                snailX += (dx / distance) * 150;
+                snailY += (dy / distance) * 150;
+            }
+    
+
+            // Keep snail inside screen
+            snailX = Math.max(
+                50,
+                Math.min(window.innerWidth - 50, snailX)
+            );
+
+            snailY = Math.max(
+                50,
+                Math.min(window.innerHeight - 50, snailY)
+            );
+
+        });
+
+        // Start the snail
+        moveSnail();
+
+    </script>
+
+
+</body></html>
